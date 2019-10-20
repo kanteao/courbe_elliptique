@@ -104,19 +104,23 @@ print ('all_alpha',all_alpha)
 
 #chiffrement______________________________________________________
 
-mes_x= input('Entrer la valeur de x du message ')
-mes_y= input('Entrer la valeur de y du message ')
-k=int(input('Entrer la valeur de k du message '))
-mes=[int(mes_x),int(mes_y)]
-print('mes ',mes)
-print('k ',k)
+#mes_x= input('Entrer la valeur de x du message ')
+#mes_y= input('Entrer la valeur de y du message ')
+#k=int(input('Entrer la valeur de k du message '))
+#mes=[int(mes_x),int(mes_y)]
+#print('mes ',mes)
+#print('k ',k)
+
 def chiffrer(mes,k,all_alpha):
 	alpha_y1=str((k%mod))+'a'
 	beta=k%mod
 	for x,y in all_alpha.items():
 		if mes==y:
 			print('mes_x',x)
-			x_alpha=int(x[0:-1])
+			if(x=='a'):
+				x_alpha=1
+			else:
+				x_alpha=int(x[0:-1])
 			print('x_alpha',x_alpha)
 			a_y2=(x_alpha+k*beta)
 			alpha_y2=str(a_y2)+'a'
@@ -150,17 +154,24 @@ for pp in points:
 	r=r+1
 print(point_dict)
 	
-chif=chiffrer(mes,k,all_alpha)
-dechiffrer(chif,k,all_alpha)
+#chif=chiffrer(mes,k,all_alpha)
+#dechiffrer(chif,k,all_alpha)
 
 text=input('Entrer le message a chiffrer')
+k=int(input('Entrer la valeur de k du message '))
 print('text',text)
 text_chif=''
-for txt in text:
-	chif=chiffrer(mes,k,all_alpha)
+for txt in text: 
+	print('txt',txt)
+	#chif=chiffrer(mes,k,all_alpha)
 	for x,y in point_dict.items():
-		if txt==y:
-			text_chif=text_chif+x
+		if txt==x:
+			message=y
+			print('message',message)
+			chif=chiffrer(message,k,all_alpha)
+			for x,y in point_dict.items():
+				if chif==y:
+					text_chif=text_chif+x
 print('text_chif',text_chif)
 	
 	
