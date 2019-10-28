@@ -1,5 +1,6 @@
 #!/bin/python3
 # cd /Users/kourakanewane/Desktop/rangement/Cours/M2\ RISM/Securite\ des\ services\ web
+# cd \Documents\GitHub\Applications
 import random
 import math
 from itertools import product
@@ -13,10 +14,32 @@ modulo=1321
 temp=0
 i=1
 kerr=2
+# Calcul du Nombre de blocs
 caracteres=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','0']
 nchar=len(caracteres)
 bl_size=nchar**2
-print(bl_size)
+
+# Calcul du modulo
+def n_premiers(lower,upper):
+	print("Les nombres premiers entre",lower,"et",upper,"sont:")
+	prime=[]
+	for num in range(lower,upper + 1):
+	   # prime numbers are greater than 1
+	   if num > 1:
+	       for i in range(2,num):
+	           if (num % i) == 0:
+	               break
+	       else:
+	           #print(num)
+	           prime.append(num)
+	print(prime)
+
+up = bl_size + 50
+n_premiers(bl_size,up)
+
+# Genese des blocs de taille 2
+print("\n \n")
+
 combs = [''.join(comb) for comb in product(caracteres, repeat=kerr)]
 print(combs)
 
@@ -31,9 +54,9 @@ while temp!=1:
 		temp=1
 	else:
 		i=i+1	
-print(x,y)
+#print(x,y)
 G=[x,y]
-print(G)
+print("\n \n Notre generateur est ",G)
 x1=x
 y1=y
 
@@ -57,17 +80,16 @@ val=((3*x1**2)+2)%modulo
 e=2*y1%modulo
 
 lambda3 = euclide_etendu(e, modulo, val)
-print(lambda3)
+print("Lambda =",lambda3)
 
 x3=((lambda3**2)-2*x1)%modulo
 y3=(lambda3*(x1-x3)-y1)%modulo
-
 ordre=ordre+1
+# Ajout du deuxieme point (2*alpha) a la liste
 listex.append(x3)
 listey.append(y3)
 
 tempo=0
-
 while tempo!=1:
 	x2=x3
 	y2=y3
@@ -76,23 +98,23 @@ while tempo!=1:
 	lambda1 = euclide_etendu(e1, modulo, val1)
 	x3=((lambda1**2)-x1-x2)%modulo
 	y3=(lambda1*(x1-x3)-y1)%modulo
-
 	if (x3 == G[0]):
 		listex.append(x3)
 		listey.append(y3)
 		ordre=ordre+1
-		print(x3,y3)
+		print("Dernier point : (", x3 ,",",y3 ,")")
 		tempo=1
 	else:
 		listex.append(x3)
 		listey.append(y3)
 		ordre=ordre+1
+#print(listex)
+#print(listey)
+print("Nombre de points :",len(listex))
+#print(len(listey))
 
-print(listex)
-print(listey)
 
-print(len(listex))
-print(len(listey))
+# Cryptage et Decryptage
 
 def crypter(m, phi_n, tab, coef) :
 	cpt=[]
@@ -118,7 +140,7 @@ couple = []
 for x,y in zip(listex,listey):
  a = (x,y)
  couple.append(a)
-print (couple)
+#print (couple)
 ## Cryptage
 k = 3265477 # cle publique ??
 beta = k%modulo
