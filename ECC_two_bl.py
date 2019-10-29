@@ -4,6 +4,8 @@
 import random
 import math
 from itertools import product
+import binascii
+from fonctions import n_premiers, hexadeci, deci, euclide_etendu, crypter, decrypter
 
 listex=[]
 listey=[]
@@ -19,29 +21,16 @@ caracteres=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
 nchar=len(caracteres)
 bl_size=nchar**2
 
-# Calcul du modulo
-def n_premiers(lower,upper):
-	print("Les nombres premiers entre",lower,"et",upper,"sont:")
-	prime=[]
-	for num in range(lower,upper + 1):
-	   # prime numbers are greater than 1
-	   if num > 1:
-	       for i in range(2,num):
-	           if (num % i) == 0:
-	               break
-	       else:
-	           #print(num)
-	           prime.append(num)
-	print(prime)
-
 up = bl_size + 50
 n_premiers(bl_size,up)
 
 # Genese des blocs de taille 2
 print("\n \n")
-
 combs = [''.join(comb) for comb in product(caracteres, repeat=kerr)]
 print(combs)
+print("\n \n")
+combs = hexadeci(combs)
+
 
 
 """ ETAPE 0 : CHOIX D'UN GENERATEUR """
@@ -67,13 +56,6 @@ ordre=1
 
 
 """ ETAPE 1 : DEFINITION DE (x3,x3) """
-def euclide_etendu(e, phi_n, val) :
-  d = 1
-  temp = (e*d)%phi_n
-  while(temp != val):
-    d = d+1
-    temp = (e*d)%phi_n
-  return d
 
 val=((3*x1**2)+2)%modulo
 #phi_n=37
@@ -114,28 +96,6 @@ print("Nombre de points :",len(listex))
 #print(len(listey))
 
 
-# Cryptage et Decryptage
-
-def crypter(m, phi_n, tab, coef) :
-	cpt=[]
-	## Cryptage
-	print("code a chiffrer:" , m)
-	y1=tab[(coef-1)%phi_n]
-	y2=tab.index(m)+(coef*coef)
-	indice = y2%phi_n
-	cpt=couple[indice]
-	print("code chiffre:", cpt)
-	return cpt
-
-def decrypter(m, phi_n, tab, coef) :
-	dcpt=[]
-	## Decryptage
-	indice=tab.index(m)
-	dec = (indice-coef*coef)%phi_n
-	dcpt=tab[dec]
-	print("code dechiffre:", dcpt)
-	return dcpt
-
 couple = []
 for x,y in zip(listex,listey):
  a = (x,y)
@@ -145,11 +105,12 @@ for x,y in zip(listex,listey):
 k = 3265477 # cle publique ??
 beta = k%modulo
 texte="tempo22"
-texte1="jevousaimee"
+texte1='jevousaimee'
 print(len(texte1))
 result=[]
 indice=0
 message=''
+hexamessage=''
 bonus='y'
 
 toto=0
@@ -157,13 +118,15 @@ toto=0
 if (len(texte1))%kerr==1:
 	print("La chaine est impaire")
 	texte1=texte1+bonus
+	texte1 = binascii.hexlify(texte1.encode()) # Conversion en hexadecimal
 else:
 	print("La chaine est paire")
+	texte1 = binascii.hexlify(texte1.encode()) # Conversion en hexadecimal
 
 #for char in texte1:
 while toto!=1:
-	m=texte1[indice:indice+kerr]
-	indice=indice+kerr
+	m=texte1[indice:indice+2*kerr]
+	indice=indice+2*kerr
 	print(" Message a chiffrer:", m)
 	nombre=combs.index(m)
 
@@ -173,20 +136,20 @@ while toto!=1:
 	decrypte = decrypter(crypte,modulo,couple,k)
 	index = couple.index(decrypte)
 	decm=combs[index]
-	message=message+decm
 	print(" Le message dechiffre est :", decm)
+	hexamessage = hexamessage + (str(decm))
+	decm = binascii.unhexlify(decm).decode() # Conversion en chaine de caracteres
+	message=message+decm
 
 	result.append(decrypte)
 	if(indice>=len(texte1)):
 		toto=1
 
-print(result)
-print(crypte)
-print(decrypte)
+print("Code dechiffre: liste de points ",result)
+#print(crypte)
+#print(decrypte)
+print("Message hexa dechiffre:", hexamessage)
 print("Message dechiffre:", message)
 
 
-"""hexa=texte1.encode("hex")
-print(hexa)
-deci=hexa.decode("hex")
-print(deci)"""
+
