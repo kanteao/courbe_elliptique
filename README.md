@@ -1,5 +1,9 @@
 # Applications
 Class work and brain food
+https://www.smalsresearch.be/elliptic-curve-cryptography-tutoriel2/
+https://csrc.nist.gov/csrc/media/events/workshop-on-elliptic-curve-cryptography-standards/documents/papers/session1-miele-paper.pdf
+https://www.informatik.tu-darmstadt.de/cdc/home_cdc/index.en.jsp
+https://pypi.org/project/fastecdsa/
 ____________________________________________________________________________________________________________
 Target: Obtenir a partir d'une courbe elliptique, tous les parametres pour avoir un nombre de points optimal
 ____________________________________________________________________________________________________________
